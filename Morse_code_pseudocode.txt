@@ -1,0 +1,60 @@
+BEGIN
+
+1. IMPORT necessary libraries:
+       - OpenCV for webcam
+       - Mediapipe for face/eye landmarks
+       - Time for tracking duration
+       - Matplotlib & Seaborn for plotting
+       - TTS library for speech output
+       - Optional: NumPy for calculations
+
+2. INITIALIZE variables:
+       - Blink detection thresholds:
+           * eye_aspect_ratio_threshold
+           * short_blink_duration (dot)
+           * long_blink_duration (dash)
+       - Timers for tracking letter and word gaps
+       - Lists to store:
+           * blink durations
+           * dot/dash sequences
+           * decoded letters
+       - Initialize Text-to-Speech engine
+
+3. START webcam capture
+
+4. LOOP over each video frame:
+       a. Detect face landmarks using Mediapipe
+       b. Extract left (or right) eye landmarks
+       c. CALCULATE Eye Aspect Ratio (EAR)
+       d. IF EAR < threshold:
+              - Mark eye as closed
+              - Start blink timer if not already started
+       e. ELSE IF EAR >= threshold and eye was previously closed:
+              - Calculate blink duration
+              - Classify blink:
+                  * IF duration < short_blink_duration: dot (.)
+                  * ELSE IF duration >= long_blink_duration: dash (-)
+              - Append dot/dash to current sequence
+              - Store blink duration for plotting
+              - Reset blink timer
+
+       f. CHECK for letter gap (time since last blink > 2s):
+              - Decode current dot/dash sequence into a letter
+              - Append to decoded letters list
+              - Reset current sequence
+
+       g. CHECK for word gap (time since last blink > 5s):
+              - Append space to decoded letters list
+
+       h. OPTIONAL: Speak the decoded letter using TTS
+
+5. ON exiting the loop:
+       - Release webcam
+       - Close all OpenCV windows
+
+6. PLOT statistics using Matplotlib/Seaborn:
+       a. Histogram of blink durations
+       b. Bar plot: number of dots vs dashes
+       c. Sequence of decoded letters over time
+
+END
