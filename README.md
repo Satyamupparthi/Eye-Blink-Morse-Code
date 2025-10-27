@@ -36,8 +36,3 @@ It's not an app — it's a **research-grade prototype** showing how machine perc
 
 ---
 
-## ???? Installation
-
-### 1️⃣ Clone the repository
-```bash
-```
